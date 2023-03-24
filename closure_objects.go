@@ -29,10 +29,6 @@ func closure_point() map[string] interface{} {
 	return functions
 }
 
-func build_closure_point() (func() map[string] interface{}) {
-	return closure_point
-}
-
 func main() {
 	my_obj := closure_point()
 
@@ -45,8 +41,7 @@ func main() {
 	fmt.Println(my_obj["get"].(func() (int, int))())
 
 
-	new_obj_container := build_closure_point()
-	new_obj := new_obj_container()
+	new_obj := closure_point()
 	fmt.Print("new_obj created at: ")
 	fmt.Println(new_obj["get"].(func() (int, int))())
 

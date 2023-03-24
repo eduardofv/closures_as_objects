@@ -19,10 +19,6 @@ def closure_point():
     return {'set': setfn, 'get': getfn, 'move': move}
 
 
-def build_closure_point():
-    return closure_point()
-
-
 def main():
     my_obj = closure_point()
     my_obj['set'](1, 2)
@@ -30,7 +26,7 @@ def main():
     my_obj['move']()
     print(f"my_obj after move: ", my_obj['get']())
 
-    new_obj = build_closure_point()
+    new_obj = closure_point()
     print(f"new_obj created at: ", new_obj['get']())
     new_obj['move']()
     print(f"new_obj after move: ", new_obj['get']())
