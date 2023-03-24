@@ -2,54 +2,35 @@ package main
 
 import "fmt"
 
-func closure_point() map[string] interface{} {
-	px := 0
-	py := 0
+/*
+Interestingly, I needed to define the function types - even if need to restate the signature
+when creating the closures. 
 
-	set := func(x, y int) {
-		px = x
-		py = y
+This is because I didn't found a way to cast the "object" function calls in main
+to the signature. See closure_point.go on how to cast directly 
+Anyway, this looks better
+*/
+
+type addfnType func() 
+type getfnType func() int
+
+func closure_object() (addfnType, getfnType) {
+	x := 1
+
+	var addfn addfnType = func() {
+		x += 1
 	}
 
-	get := func() (int, int) {
-		return px, py
+	var getfn getfnType = func() int {
+		return x
 	}
 
-	move := func() {
-		px += 1
-		py += 1
-	}
-
-	functions := make(map[string] interface{})
-
-	functions["set"] = set
-	functions["get"] = get
-	functions["move"] = move
-
-	return functions
+	return addfn, getfn
 }
 
 func main() {
-	my_obj := closure_point()
-
-	my_obj["set"].(func(int, int))(1, 2)
-	fmt.Print("my_obj set at: "); 
-	fmt.Println(my_obj["get"].(func() (int, int))())
-
-	my_obj["move"].(func())()
-	fmt.Print("my_obj after move: ")
-	fmt.Println(my_obj["get"].(func() (int, int))())
-
-
-	new_obj := closure_point()
-	fmt.Print("new_obj created at: ")
-	fmt.Println(new_obj["get"].(func() (int, int))())
-
-	new_obj["move"].(func())()
-	fmt.Print("new_obj after move: ")
-	fmt.Println(new_obj["get"].(func() (int, int))())
-
-
-	fmt.Print("my_obj still at: ")
-	fmt.Println(my_obj["get"].(func() (int, int))())
+	add1, get := closure_object()
+	add1()
+	add1()
+	fmt.Println(get())
 }
