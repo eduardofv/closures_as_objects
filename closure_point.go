@@ -20,13 +20,13 @@ func closure_point() map[string] interface{} {
 		py += 1
 	}
 
-	functions := make(map[string] interface{})
+	methods := make(map[string] interface{})
 
-	functions["set"] = set
-	functions["get"] = get
-	functions["move"] = move
+	methods["set"] = set
+	methods["get"] = get
+	methods["move"] = move
 
-	return functions
+	return methods
 }
 
 func main() {
