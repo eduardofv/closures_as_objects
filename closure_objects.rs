@@ -1,6 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-fn clos() -> (Box<dyn FnMut()>, Box<dyn FnMut() -> i32>) {
+fn closure_point() -> (Box<dyn FnMut()>, Box<dyn FnMut() -> i32>) {
     let x = Rc::new(RefCell::new(1));
 
     let x_add = x.clone();
@@ -17,7 +17,7 @@ fn clos() -> (Box<dyn FnMut()>, Box<dyn FnMut() -> i32>) {
 
 
 fn main() {
-    let (mut obj_add, mut obj_get) = clos();
+    let (mut obj_add, mut obj_get) = closure_point();
 
     println!("{}", obj_get());
     obj_add();
