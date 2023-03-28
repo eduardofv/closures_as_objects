@@ -2,15 +2,14 @@ use std::{cell::RefCell, rc::Rc};
 use std::collections::HashMap;
 
 //CREATING A HASHMAP WITH CLOSURES LOOKS PROBLEMATIC
-fn closure_point() -> Box<dyn Fn()> {
-//fn closure_point() -> HashMap<&'static str, Box<&'static dyn Fn()>> {
+fn closure_point() -> HashMap<&'static str, &'static mut Box<dyn Fn()>> {
     let x = Rc::new(RefCell::new(0));
 
-    //let mut methods = HashMap::new();
+    let mut methods: HashMap<&str, &mut Box<dyn Fn()>> = HashMap::new();
 
     let x_add = x.clone();
-    let add = move || { *x_add.borrow_mut() += 1; };    
-    //methods.insert("add", Box::new(&add));
+    let add = move || { *x_add.borrow_mut() += 1; };   
+    methods.insert("add", &mut Box::new(add));
 
     /*
     let x_get = x.clone();
@@ -20,18 +19,13 @@ fn closure_point() -> Box<dyn Fn()> {
     }));
     */
 
-    return Box::new(add);
-    //return methods;
+    return methods;
 }
 
 
 fn main() {
-    let mut object = closure_point();
-
-    let mut hm: HashMap<&str, &mut Box<dyn Fn()>> = HashMap::new();
-    hm.insert("add", &mut object);
-
-    object();
-//    println!("{}", object());
+    let object = closure_point();
+    object["add"]();
+    //println!("{}", object["add"]());
 }
 
